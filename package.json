@@ -2,7 +2,7 @@
   "//1": "describes your app and its dependencies",
   "//2": "https://docs.npmjs.com/files/package.json",
   "//3": "updating this file will download and update your packages",
-  "name": "fcc-image-search",
+  "name": "my-glitch-app",
   "version": "0.0.1",
   "description": "FCC Image Search Abstraction Layer",
   "main": "server.js",
@@ -18,15 +18,12 @@
     "node": "8.x"
   },
   "repository": {
-    "url": "https://github.com/Shlim45/fcc-image-search.git"
+    "url": "https://github.com/Shlim45/fcc-image-search/"
   },
   "license": "MIT",
   "keywords": [
     "node",
     "glitch",
-    "express",
-    "mongodb",
-    "mongoose",
-    "fcc",
+    "express"
   ]
 }
