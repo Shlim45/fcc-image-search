@@ -3,6 +3,8 @@
 
 // init project
 var express = require('express');
+var mongoose = require('mongoose');
+
 var app = express();
 
 // we've started you off with Express, 
