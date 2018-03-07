@@ -21,13 +21,13 @@ app.get("/", function (request, response) {
   response.sendFile(__dirname + '/views/index.html');
 });
 
-function googleSearch(query, offset=10) {
+async function googleSearch(query, offset=10) {
   if (query.length <= 0) return;
   
   const client = new GoogleImages(process.env.GOOGLE_CSE, process.env.GOOGLE_KEY);
   
-  return client.search(query)
-    .then(images => images)
+  return await client.search(query)
+    .then(images => await images)
     .catch(err => console.error(err));
 }
 
@@ -37,11 +37,12 @@ app.get("/api/imagesearch/:query", function (req, res) {
   const query = req.params.query;
   const offset = req.query.offset ? req.query.offset : 10;
   
-  const results = googleSearch(query, offset)
-    .then(images => {
-      console.dir(images);
-    })
-    .catch(err => console.error(err));
+  const results = googleSearch(query, offset);
+    // .then(images => {
+    //   console.dir(images);
+    // })
+    // .catch(err => console.error(err));
+  console.log(results);
   
 });
 
