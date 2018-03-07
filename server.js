@@ -1,11 +1,9 @@
-// server.js
-// where your node app starts
+import { googleSearch, reduceImages } from './modules/';
 
 // init project
 const express = require('express');
 // const mongoose = require('mongoose');
 // const fetch = require("node-fetch");
-const GoogleImages = require('google-images');
  
 const app = express();
 // const GOOGLE_URI = process.env.GOOGLE_URI;
@@ -21,45 +19,14 @@ app.get("/", function (request, response) {
   response.sendFile(__dirname + '/views/index.html');
 });
 
-function googleSearch(query, offset=10) {
-  if (query.length <= 0) return;
-  
-  const client = new GoogleImages(process.env.GOOGLE_CSE, process.env.GOOGLE_KEY);
-  
-  return client.search(query)
-    .then(images => images)
-    .catch(err => console.error(err));
-}
 
 app.get("/api/imagesearch/:query", function (req, res) {
-  // res.send("<h1>imagesearch</h1>");
-  
   const query = req.params.query;
   const offset = req.query.offset ? req.query.offset : 10;
   
-  function reduceImages(images) {
-    return 
-  }
-  
   const results = googleSearch(query, offset)
-    .then(images => {
-      console.dir(images);
-      res.json(
-        // collect needed data
-        images.reduce((acc, image) => {
-          console.log(acc);
-          return [...acc, {
-              "url": image.url,
-              "snippet": image.description,
-              "thumbnail": image.thumbnail.url,
-              "context": image.parentPage
-          }];
-        }, [])
-      );
-    })
-    .catch(err => console.error(err));
-  console.log(results);
-  
+    .then(images => res.json(reduceImages(images)))
+    .catch(err => console.error(err));  
 });
 
 // listen for requests :)
