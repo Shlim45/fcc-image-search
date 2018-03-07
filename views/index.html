@@ -12,28 +12,19 @@
   <body>
     <header>
       <h1>
-        A Dream of the Future
+        Image Search Abstraction Layer
       </h1>
     </header>
 
     <main>
-      <p class="bold">Oh hi,</p>
-      <p>Tell me your hopes and dreams:</p>
-      <form>
-        <input type="text" maxlength="100" placeholder="Dreams!">
-        <button type="submit">Submit</button>
-      </form>
-      <section class="dreams">
-        <ul id="dreams">
-        </ul>
-      </section>
+      <ol>
+        <li>use <code>https://heady-swoop.glitch.me/api/imagesearch/&lt;SEARCH TERM&gt;/offset=&lt;PAGE NUMBER&gt;</code></li>
+          <ul>
+            <li><b>SEARCH TERM</b> is the image keywords you wish to search for</li>
+            <li><b>PAGE NUMBER</b> is which page of the results you wish to see</li>
+          </ul>
+        <li>use <code>https://heady-swoop.glitch.me/api/latest/imagesearch/</code> to view the last 10 search queries</li>
+      </ol>
     </main>
-
-    <footer>
-      <a href="https://glitch.com">
-        Remix this in Glitch
-      </a>
-    </footer>
-
   </body>
 </html>
