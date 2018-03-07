@@ -40,18 +40,21 @@ app.get("/api/imagesearch/:term", function (req, res) {
       console.error('Term', err);
       return;
     }
-    console.log(newTerm);
   });
 });
 
 app.get("/api/latest/imagesearch/", function (req, res) {
   Term.find({}, function(err, terms) {
     if (!err){ 
-        res.json(terms.reduce((acc, term) => {
-          const query = term.term;
-          const {when} = term;
-          return [...acc, {"term":query, when}];
-        }, []).sort((a, b) => a.when > b.when));
+        res.json(
+          terms.reduce((acc, term) => {
+            const query = term.term;
+            const {when} = term;
+            return [...acc, {"term":query, when}];
+          }, [])
+          .sort((a, b) => a.when < b.when)
+          .slice(0, 10)
+        );
     } else {
       console.error(err);
       throw err;
