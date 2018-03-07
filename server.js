@@ -1,10 +1,19 @@
 const { googleSearch, reduceImages } = require('./modules/');
+const { Term } = require('./models/term');
 
 // init project
 const express = require('express');
 const mongoose = require('mongoose');
  
 const app = express();
+
+const URL = process.env.MONGOLAB_URI;
+mongoose.connect(URL);
+
+// enable CORS (https://en.wikipedia.org/wiki/Cross-origin_resource_sharing)
+// so that your API is remotely testable by FCC 
+var cors = require('cors');
+app.use(cors({optionSuccessStatus: 200}));  // some legacy browsers choke on 204
 
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
@@ -15,13 +24,18 @@ app.get("/", function (request, response) {
 });
 
 
-app.get("/api/imagesearch/:query", function (req, res) {
-  const query = req.params.query;
+app.get("/api/imagesearch/:term", function (req, res) {
+  const term = req.params.term;
   const offset = req.query.offset ? req.query.offset : 1;
   
-  const results = googleSearch(query, offset)
+  googleSearch(term, offset)
     .then(images => res.json(reduceImages(images)))
-    .catch(err => console.error(err));  
+    .catch(err => {
+      console.error(err);
+      res.send('<h2 style="text-align: center">Error with request, try again</h2>');
+    });
+  
+  Term.create({term, "when": Date.now()}, function(err, newTerm);
 });
 
 // listen for requests :)
