@@ -2,10 +2,11 @@
 // where your node app starts
 
 // init project
-var express = require('express');
-// var mongoose = require('mongoose');
+const express = require('express');
+// const mongoose = require('mongoose');
+const fetch = require("node-fetch");
 
-var app = express();
+const app = express();
 const GOOGLE_URI = process.env.GOOGLE_URI;
 
 // we've started you off with Express, 
@@ -19,7 +20,8 @@ app.get("/", function (request, response) {
   response.sendFile(__dirname + '/views/index.html');
 });
 
-function googleSearch(term="", offset=10) {
+function googleSearch(term, offset=10) {
+  if (term.length <= 0) return;
   const url = GOOGLE_URI + "?q=" + term;
   console.log(url);
   fetch(url)
@@ -39,6 +41,6 @@ app.get("/api/imagesearch/:query", function (req, res) {
 });
 
 // listen for requests :)
-var listener = app.listen(process.env.PORT, function () {
+const listener = app.listen(process.env.PORT, function () {
   console.log('Your app is listening on port ' + listener.address().port);
 });
