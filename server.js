@@ -45,8 +45,13 @@ app.get("/api/imagesearch/:term", function (req, res) {
 });
 
 app.get("/api/latest/imagesearch/", function (req, res) {
-  const history = Term.find({});
-  console.log(history);
+  Term.find({}, function(err, terms) {
+    if (!err){ 
+        res.json({...terms});
+        process.exit();
+    } else {throw err;}
+  });
+  // res.send("<h2>under construction</h2>");
 });
 
 // listen for requests :)
