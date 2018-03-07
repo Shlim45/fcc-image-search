@@ -19,6 +19,15 @@ app.get("/", function (request, response) {
   response.sendFile(__dirname + '/views/index.html');
 });
 
+function googleSearch(term="", offset=10) {
+  const url = GOOGLE_URI + "?q=" + term;
+  console.log(url);
+  fetch(url)
+    .then(res => res.json())
+    .then(data => console.log('fetched:', data))
+    .catch(err => console.error(err));
+}
+
 app.get("/api/imagesearch/:query", function (req, res) {
   res.send("<h1>imagesearch</h1>");
   const query = req.url.replace("/api/imagesearch/", "");
@@ -26,6 +35,7 @@ app.get("/api/imagesearch/:query", function (req, res) {
   const term   = query.substring(0, query.lastIndexOf('?'));
   const offset = query.substring(query.lastIndexOf('=') + 1, query.length);
   console.log(term, offset);
+  googleSearch(term);
 });
 
 // listen for requests :)
