@@ -23,10 +23,12 @@ app.get("/", function (request, response) {
 function googleSearch(query, offset=10) {
   if (query.length <= 0) return;
   const url = GOOGLE_URI + query;
-  console.log(url);
+
   fetch(url)
     .then(res => res.json())
-    .then(data => data)
+    .then(data => {
+      console.log(data)
+    })
     .catch(err => console.error(err));
 }
 
@@ -36,7 +38,7 @@ app.get("/api/imagesearch/:query", function (req, res) {
   const query = req.params.query;
   const offset = req.query.offset ? req.query.offset : 10;
   
-  console.log(googleSearch(query, offset));
+  googleSearch(query, offset);
 });
 
 // listen for requests :)
