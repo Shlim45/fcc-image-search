@@ -1,15 +1,10 @@
-import { googleSearch, reduceImages } from './modules/';
+const { googleSearch, reduceImages } = require('./modules/');
 
 // init project
 const express = require('express');
 // const mongoose = require('mongoose');
-// const fetch = require("node-fetch");
  
 const app = express();
-// const GOOGLE_URI = process.env.GOOGLE_URI;
-
-// we've started you off with Express, 
-// but feel free to use whatever libs or frameworks you'd like through `package.json`.
 
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
@@ -22,7 +17,7 @@ app.get("/", function (request, response) {
 
 app.get("/api/imagesearch/:query", function (req, res) {
   const query = req.params.query;
-  const offset = req.query.offset ? req.query.offset : 10;
+  const offset = req.query.offset ? req.query.offset : 1;
   
   const results = googleSearch(query, offset)
     .then(images => res.json(reduceImages(images)))

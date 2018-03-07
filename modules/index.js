@@ -1,22 +1,24 @@
 const GoogleImages = require('google-images');
 
-module.exports = function googleSearch(query, offset=10) {
-  if (query.length <= 0) return;
-  
-  const client = new GoogleImages(process.env.GOOGLE_CSE, process.env.GOOGLE_KEY);
-  
-  return client.search(query)
-    .then(images => images)
-    .catch(err => console.error(err));
-}
-  
-module.exports = function reduceImages(images) {
-  return images.reduce((acc, image) => {
-    return [...acc, {
-        "url": image.url,
-        "snippet": image.description,
-        "thumbnail": image.thumbnail.url,
-        "context": image.parentPage
-    }];
-  }, []);
-}
+Object.assign(exports, {
+    googleSearch(query, page) {
+      if (query.length <= 0) return;
+
+      const client = new GoogleImages(process.env.GOOGLE_CSE, process.env.GOOGLE_KEY);
+      // paginate results 
+// client.search('Steve Angello', {page: 2});
+      return client.search(query, {page})
+        .then(images => images)
+        .catch(err => console.error(err));
+    },
+    reduceImages(images) {
+      return images.reduce((acc, image) => {
+        return [...acc, {
+            "url": image.url,
+            "snippet": image.description,
+            "thumbnail": image.thumbnail.url,
+            "context": image.parentPage
+        }];
+      }, []);
+    }
+});
