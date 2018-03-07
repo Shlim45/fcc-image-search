@@ -6,6 +6,7 @@ var express = require('express');
 // var mongoose = require('mongoose');
 
 var app = express();
+const GOOGLE_URI = process.env.GOOGLE_URI;
 
 // we've started you off with Express, 
 // but feel free to use whatever libs or frameworks you'd like through `package.json`.
@@ -18,9 +19,13 @@ app.get("/", function (request, response) {
   response.sendFile(__dirname + '/views/index.html');
 });
 
-app.get("/api/imagesearch/", function (req, res) {
+app.get("/api/imagesearch/:query", function (req, res) {
   res.send("<h1>imagesearch</h1>");
-  console.log(req.params);
+  const query = req.url.replace("/api/imagesearch/", "");
+
+  const term   = query.substring(0, query.lastIndexOf('?'));
+  const offset = query.substring(query.lastIndexOf('=') + 1, query.length);
+  console.log(term, offset);
 });
 
 // listen for requests :)
