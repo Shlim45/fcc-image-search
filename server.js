@@ -47,11 +47,16 @@ app.get("/api/imagesearch/:term", function (req, res) {
 app.get("/api/latest/imagesearch/", function (req, res) {
   Term.find({}, function(err, terms) {
     if (!err){ 
-        res.json({...terms});
-        process.exit();
-    } else {throw err;}
+        res.json(terms.reduce((acc, term) => {
+          const query = term.term;
+          const {when} = term;
+          return [...acc, {"term":query, when}];
+        }, []).sort((a, b) => a.when > b.when));
+    } else {
+      console.error(err);
+      throw err;
+    }
   });
-  // res.send("<h2>under construction</h2>");
 });
 
 // listen for requests :)
