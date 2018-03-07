@@ -1,5 +1,5 @@
 const { googleSearch, reduceImages } = require('./modules/');
-const { Term } = require('./models/term');
+const Term = require('./models/term');
 
 // init project
 const express = require('express');
@@ -35,7 +35,18 @@ app.get("/api/imagesearch/:term", function (req, res) {
       res.send('<h2 style="text-align: center">Error with request, try again</h2>');
     });
   
-  Term.create({term, "when": Date.now()}, function(err, newTerm);
+  Term.create({term, "when": Date.now()}, function(err, newTerm) {
+    if (err) {
+      console.error('Term', err);
+      return;
+    }
+    console.log(newTerm);
+  });
+});
+
+app.get("/api/latest/imagesearch/", function (req, res) {
+  const history = Term.find({});
+  console.log(history);
 });
 
 // listen for requests :)
