@@ -2,7 +2,7 @@ const { googleSearch, reduceImages } = require('./modules/');
 
 // init project
 const express = require('express');
-// const mongoose = require('mongoose');
+const mongoose = require('mongoose');
  
 const app = express();
 

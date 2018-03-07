@@ -18,8 +18,5 @@ Object.assign(exports, {
             "context": image.parentPage
         }];
       }, []);
-    },
-    addToHistory(query) {
-      const history = localStorage.getItem(history
     }
 });
