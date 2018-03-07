@@ -37,10 +37,25 @@ app.get("/api/imagesearch/:query", function (req, res) {
   const query = req.params.query;
   const offset = req.query.offset ? req.query.offset : 10;
   
+  function reduceImages(images) {
+    return 
+  }
+  
   const results = googleSearch(query, offset)
     .then(images => {
       console.dir(images);
-      res.json(images);
+      res.json(
+        // collect needed data
+        images.reduce((acc, image) => {
+          console.log(acc);
+          return [...acc, {
+              "url": image.url,
+              "snippet": image.description,
+              "thumbnail": image.thumbnail.url,
+              "context": image.parentPage
+          }];
+        }, [])
+      );
     })
     .catch(err => console.error(err));
   console.log(results);
