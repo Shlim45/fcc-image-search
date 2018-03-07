@@ -22,7 +22,7 @@ app.get("/", function (request, response) {
 
 function googleSearch(query, offset=10) {
   if (query.length <= 0) return;
-  const url = GOOGLE_URI + "?q=" + query;
+  const url = GOOGLE_URI + query;
   console.log(url);
   fetch(url)
     .then(res => res.json())
