@@ -20,24 +20,23 @@ app.get("/", function (request, response) {
   response.sendFile(__dirname + '/views/index.html');
 });
 
-function googleSearch(term, offset=10) {
-  if (term.length <= 0) return;
-  const url = GOOGLE_URI + "?q=" + term;
+function googleSearch(query, offset=10) {
+  if (query.length <= 0) return;
+  const url = GOOGLE_URI + "?q=" + query;
   console.log(url);
   fetch(url)
     .then(res => res.json())
-    .then(data => console.log('fetched:', data))
+    .then(data => console.dir(data))
     .catch(err => console.error(err));
 }
 
 app.get("/api/imagesearch/:query", function (req, res) {
   res.send("<h1>imagesearch</h1>");
-  const query = req.url.replace("/api/imagesearch/", "");
-
-  const term   = query.substring(0, query.lastIndexOf('?'));
-  const offset = query.substring(query.lastIndexOf('=') + 1, query.length);
-  console.log(term, offset);
-  googleSearch(term);
+  
+  const query = req.params.query;
+  const offset = req.query.offset ? req.query.offset : 10;
+  
+  googleSearch(query, offset);
 });
 
 // listen for requests :)
