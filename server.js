@@ -4,10 +4,11 @@
 // init project
 const express = require('express');
 // const mongoose = require('mongoose');
-const fetch = require("node-fetch");
-
+// const fetch = require("node-fetch");
+const GoogleImages = require('google-images');
+ 
 const app = express();
-const GOOGLE_URI = process.env.GOOGLE_URI;
+// const GOOGLE_URI = process.env.GOOGLE_URI;
 
 // we've started you off with Express, 
 // but feel free to use whatever libs or frameworks you'd like through `package.json`.
@@ -22,14 +23,17 @@ app.get("/", function (request, response) {
 
 function googleSearch(query, offset=10) {
   if (query.length <= 0) return;
-  const url = GOOGLE_URI + query;
+  
+  const client = new GoogleImages(process.env.GOOGLE_CSE, process.env.GOOGLE_KEY);
+  client.search(
+//   const url = GOOGLE_URI + query;
 
-  fetch(url)
-    .then(res => res.json())
-    .then(data => {
-      console.log(data)
-    })
-    .catch(err => console.error(err));
+//   fetch(url)
+//     .then(res => res.json())
+//     .then(data => {
+//       console.log(data)
+//     })
+//     .catch(err => console.error(err));
 }
 
 app.get("/api/imagesearch/:query", function (req, res) {
