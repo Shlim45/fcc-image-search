@@ -21,19 +21,16 @@ app.get("/", function (request, response) {
   response.sendFile(__dirname + '/views/index.html');
 });
 
-function googleSearch(query, offset=10) {
+async function googleSearch(query, offset=10) {
   if (query.length <= 0) return;
   
   const client = new GoogleImages(process.env.GOOGLE_CSE, process.env.GOOGLE_KEY);
-  client.search(
-//   const url = GOOGLE_URI + query;
-
-//   fetch(url)
-//     .then(res => res.json())
-//     .then(data => {
-//       console.log(data)
-//     })
-//     .catch(err => console.error(err));
+  
+  const results = await client.search(query)
+    .then(images => images)
+    .catch(err => console.error(err));
+  
+  return results;
 }
 
 app.get("/api/imagesearch/:query", function (req, res) {
@@ -42,7 +39,14 @@ app.get("/api/imagesearch/:query", function (req, res) {
   const query = req.params.query;
   const offset = req.query.offset ? req.query.offset : 10;
   
-  googleSearch(query, offset);
+  const results = googleSearch(query, offset);
+    // .then(images => {
+    //   // do stuff with image results
+    // })
+    // .catch(err => console.error(err));
+  
+  console.log(results);
+  
 });
 
 // listen for requests :)
